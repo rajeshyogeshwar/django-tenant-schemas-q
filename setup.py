@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name='Django Tenant Schemas Q',
+    name='django_tenant_schemas_q',
     version='0.0.1',
     author='Rajesh Yogeshwar',
     author_email='rajesh.yogeshwar@gmail.com',

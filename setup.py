@@ -10,7 +10,7 @@ setuptools.setup(
     author_email='rajesh.yogeshwar@gmail.com',
     description='An integration package for Django-Q with Django Tenant Schemas',
     long_description=long_description,
-    url='https://github.com/rajesh.yogeshwar/django-tenant-schemas-q',
+    url='https://github.com/rajeshyogeshwar/django-tenant-schemas-q',
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -19,7 +19,7 @@ setuptools.setup(
     ],
     python_requires='>=3.7',
     install_requires=[
-        "django-tenant-schemas>=1.10.0"
+        "django-tenant-schemas>=1.10.0",
         "django-q>=1.2.1"
     ]
 )

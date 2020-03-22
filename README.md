@@ -41,4 +41,4 @@ Now, given that are schedules are tasks that are executed as per the frequency h
 
 One important thing to note is that is whenever a new **async_task** or **schedule** is created please pass in **schema_name** is keyword arguments.
 
-Full credit to authors of https://github.com/Koed00 of Django-Q and https://github.com/bernardopires of Django-Tenant-Schemas for two wonderful packages.
+Full credit to authors https://github.com/Koed00 of Django-Q and https://github.com/bernardopires of Django-Tenant-Schemas for two wonderful packages.

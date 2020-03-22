@@ -8,9 +8,11 @@ setuptools.setup(
     version='0.0.1',
     author='Rajesh Yogeshwar',
     author_email='rajesh.yogeshwar@gmail.com',
+    include_package_data=True,
     description='An integration package for Django-Q with Django Tenant Schemas',
     long_description=long_description,
     url='https://github.com/rajeshyogeshwar/django-tenant-schemas-q',
+    license='MIT',
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

@@ -5,7 +5,7 @@ from django_tenant_schemas_q.cluster import MultiTenantCluster
 
 
 class Command(BaseCommand):
-    # Translators: help text for qcluster management command
+    # Translators: help text for mscluster management command
     help = _(
         "Starts a customised Django Q Cluster designed to work with Django Tenant Schemas.")
 

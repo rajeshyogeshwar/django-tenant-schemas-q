@@ -28,6 +28,7 @@ from django.utils.translation import gettext_lazy as _
 import django_q.tasks
 from django_q.queues import Queue
 from django_q.brokers import get_broker
+from django_q.brokers.orm import ORM
 from django_q.humanhash import humanize
 from django_q.signals import pre_execute
 from django_q.status import Stat, Status
@@ -57,6 +58,11 @@ class MultiTenantCluster(object):
 
     def start(self):
         # Start Sentinel
+
+        if isinstance(self.broker, ORM):
+            logger.info(_(f"Django ORM broker is not supported"))
+            return
+
         self.stop_event = Event()
         self.start_event = Event()
         self.sentinel = Process(

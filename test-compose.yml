@@ -1,0 +1,33 @@
+version: "3"
+
+volumes:
+  pg_data: {}
+
+services:
+
+  postgres:
+    image: postgres:12.1-alpine
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "testuser"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "testdb"
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "0.0.0.0:6379:6379"
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./test_project/Dockerfile
+    ports:
+      - "8080:8080"
+    restart: "always"
+    links:
+      - postgres
+      - redis

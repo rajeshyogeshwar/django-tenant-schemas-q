@@ -1,5 +1,4 @@
 # standard
-import uuid
 from multiprocessing import Value
 
 # django
@@ -7,14 +6,14 @@ from django.db import connection
 from django.utils import timezone
 
 # local
+from django_q.queues import Queue
+from django_q.humanhash import uuid
 from django_q.conf import Conf, logger
 from django_q.brokers import get_broker
-from django_q.signing import SignedPackage
-from django_q.queues import Queue
 from django_q.signals import pre_enqueue
+from django_q.signing import SignedPackage
 from tenant_schemas.utils import schema_context
 from django_q.tasks import (schedule,
-                            async_task,
                             result,
                             result_group,
                             fetch,

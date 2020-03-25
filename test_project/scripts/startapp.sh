@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+echo "Starting application"
+python manage.py runserver 0.0.0.0:8080

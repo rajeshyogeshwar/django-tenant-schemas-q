@@ -1,0 +1,4 @@
+hiredis
+django_redis
+psycopg2-binary==2.8.4
+git+git://github.com/rajeshyogeshwar/django-tenant-schemas-q

@@ -6,4 +6,4 @@ def print_users_in_tenant():
 
 
 def print_emails_of_users_in_tenant():
-	print([x.email for x in User.objects.all()])
+    print([x.email for x in User.objects.all()])

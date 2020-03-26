@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-import datetime
-from django.apps import apps
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Load operating system environment variables and then prepare to use them
@@ -103,7 +100,10 @@ DATABASES = {
         'PORT': 5432,
         'USER': 'testuser',
         'PASSWORD': 'password',
-        'NAME': 'testdb'
+        'NAME': 'testdb',
+        'TEST': {
+            'NAME': 'testdb'
+        }
     }
 }
 
@@ -165,3 +165,34 @@ STATICFILES_FINDERS = [
 
 STATIC_URL = '/static/'
 ALLOWED_HOSTS = ['localhost:8080']
+
+
+Q_CLUSTER = {
+    'name': 'testproject',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'log_level': 'DEBUG',
+    'testing': True,
+    'redis': {
+        'host': 'redis',
+        'port': 6379,
+        'db': 0
+    }
+}
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+        }
+    }
+}
+
+
+SCHEMAS_TO_BE_EXCLUDED_BY_SCHEDULER = ['public']

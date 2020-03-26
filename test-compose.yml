@@ -20,14 +20,28 @@ services:
     image: redis:latest
     ports:
       - "0.0.0.0:6379:6379"
-
-  backend:
+  
+  qcluster: &base
     build:
       context: .
       dockerfile: ./test_project/Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    command: ["python", "manage.py", "mscluster"]
+  
+  backend:
+    <<: *base
+    expose: 
+      - "8000"
     ports:
       - "8080:8080"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
     restart: "always"
     links:
       - postgres
       - redis
+      - qcluster

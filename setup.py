@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     url='https://github.com/rajeshyogeshwar/django-tenant-schemas-q',
     license='MIT',
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["test_project", "test-compose.yml"]),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

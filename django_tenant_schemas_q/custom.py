@@ -80,7 +80,12 @@ class Chain(object):
     A sequential chain of tasks
     """
 
-    def __init__(self, chain=None, group=None, cached=Conf.CACHED, sync=Conf.SYNC):
+    def __init__(self,
+                 chain=None,
+                 group=None,
+                 cached=Conf.CACHED,
+                 sync=Conf.SYNC):
+
         self.chain = chain or []
         self.group = group or ""
         self.broker = get_broker()

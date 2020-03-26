@@ -19,14 +19,13 @@ RUN pip3 install --user -r requirements.txt
 FROM BUILDER
 
 COPY --from=BUILDER /root/.local/ /usr/local
-COPY ./app /app
-COPY ./scripts /scripts
+COPY ./test_project/app /app
+COPY ./test_project/scripts /scripts
 
 RUN groupadd -r django \
   && useradd -r -g django django \
   && chown -R django:django /app \
-  && chmod +x /scripts/startapp.sh
+  && chmod +x /scripts/startapp.sh \
+  && chmod +x /scripts/startcluster.sh
 
 WORKDIR /app
-EXPOSE 8080
-ENTRYPOINT ["/scripts/startapp.sh"]

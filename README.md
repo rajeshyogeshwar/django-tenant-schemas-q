@@ -137,4 +137,14 @@ To create a chain of tasks using Chain
     QUtilities.create_async_tasks_chain(chain, group=None, cached=Conf.CACHED, sync=Conf.SYNC, broker=None)
  For this use `Chain` from `django_tenant_schemas_q.custom` module.
 
+
+# Test the project
+
+There is a test django project in the repository. 
+- Clone the repository
+- Run `docker-compose -f test-compose.yml build`
+- Run `docker-compose -f test-compose.yml up -d`
+- Run `docker-compose -f test-compose.yml run backend python manage.py test --keepdb`
+
+
 Full credit to authors https://github.com/Koed00 of Django-Q and https://github.com/bernardopires of Django-Tenant-Schemas for two wonderful packages.

@@ -20,12 +20,9 @@ FROM BUILDER
 
 COPY --from=BUILDER /root/.local/ /usr/local
 COPY ./test_project/app /app
-COPY ./test_project/scripts /scripts
 
 RUN groupadd -r django \
   && useradd -r -g django django \
-  && chown -R django:django /app \
-  && chmod +x /scripts/startapp.sh \
-  && chmod +x /scripts/startcluster.sh
+  && chown -R django:django /app 
 
 WORKDIR /app

@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='django_tenant_schemas_q',
-    version='0.0.2',
+    version='1.0.0',
     author='Rajesh Yogeshwar',
     author_email='rajesh.yogeshwar@gmail.com',
     include_package_data=True,

@@ -5,6 +5,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 # Standard
+import ast
 import uuid
 import signal
 import socket

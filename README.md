@@ -144,6 +144,7 @@ There is a test django project in the repository.
 - Clone the repository
 - Run `docker-compose -f test-compose.yml build`
 - Run `docker-compose -f test-compose.yml up -d`
+- Run `docker-compose -f test-compose.yml run backend python manage.py setupdata`
 - Run `docker-compose -f test-compose.yml run backend python manage.py test --keepdb`
 
 

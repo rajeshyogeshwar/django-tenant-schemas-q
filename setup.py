@@ -5,12 +5,13 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='django_tenant_schemas_q',
-    version='0.0.1',
+    version='0.0.2',
     author='Rajesh Yogeshwar',
     author_email='rajesh.yogeshwar@gmail.com',
     include_package_data=True,
     description='An integration package for Django-Q with Django Tenant Schemas',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/rajeshyogeshwar/django-tenant-schemas-q',
     license='MIT',
     packages=setuptools.find_packages(exclude=["test_project", "test-compose.yml"]),

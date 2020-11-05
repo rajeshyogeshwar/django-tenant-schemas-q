@@ -97,7 +97,9 @@ class QUtilities(object):
         schema_name = kwargs.get("schema_name", connection.schema_name)
         if schema_name:
             with schema_context(schema_name):
-                return schedule(func, *args, **kwargs)
+                new_schedule = schedule(func, *args, **kwargs)
+                new_schedule.save()
+                return new_schedule
         else:
             logger.error("No schema name was provided")
             return None

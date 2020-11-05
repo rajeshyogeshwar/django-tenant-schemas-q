@@ -83,11 +83,9 @@ class QUtilities(object):
         # Wrapper method to add a task with awareness of schemapack
         if "schema_name" not in kwargs:
             kwargs.update({"schema_name": connection.schema_name})
-
         tag, task, broker, pack = QUtilities.prepare_task(func, *args, **kwargs)
         if task.get("sync", False):
             return QUtilities.run_synchronously(pack)
-
         enqueue_id = broker.enqueue(pack)
         logger.info(f"Enqueued {enqueue_id}")
         logger.debug(f"Pushed {tag}")

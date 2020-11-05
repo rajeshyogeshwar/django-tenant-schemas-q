@@ -17,6 +17,7 @@ from multiprocessing import Event, Process, Value, current_process
 
 # external
 import arrow
+from croniter import croniter
 from tenant_schemas.utils import schema_context, get_tenant_model
 
 # Django
@@ -26,7 +27,6 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 # Local
-import django_q.tasks
 from django_q.queues import Queue
 from django_q.brokers import get_broker
 from django_q.brokers.orm import ORM
@@ -37,6 +37,7 @@ from django_q.models import Task, Success, Schedule
 from django_q.signing import SignedPackage, BadSignature
 from django_q.conf import Conf, logger, psutil, get_ppid, error_reporter
 from django_q.cluster import close_old_django_connections, set_cpu_affinity
+from django_tenant_schemas_q.utils import QUtilities
 
 
 class MultiTenantCluster(object):
@@ -419,7 +420,6 @@ def worker(task_queue, result_queue, timer, timeout=Conf.TIMEOUT):
 
                     kwargs = task.get('kwargs', {})
                     schema_name = kwargs.get('schema_name', None)
-
                     if schema_name:
 
                         with schema_context(schema_name):
@@ -490,7 +490,7 @@ def save_task(task, broker):
         return
     # enqueues next in a chain
     if task.get("chain", None):
-        django_q.tasks.async_chain(
+        QUtilities.create_async_tasks_chain(
             task["chain"],
             group=task["group"],
             cached=task["cached"],
@@ -582,7 +582,7 @@ def save_cached(task, broker):
             broker.cache.set(group_key, group_list, timeout)
             # async_task next in a chain
             if task.get("chain", None):
-                django_q.tasks.async_chain(
+                QUtilities.create_async_tasks_chain(
                     task["chain"],
                     group=group,
                     cached=task["cached"],
@@ -615,7 +615,6 @@ def scheduler(broker=None):
                         .exclude(repeats=0)
                         .filter(next_run__lt=timezone.now())
                     ):
-
                         args = ()
                         kwargs = {}
                         # get args, kwargs and hook
@@ -652,28 +651,33 @@ def scheduler(broker=None):
                                     next_run = next_run.shift(months=+3)
                                 elif s.schedule_type == s.YEARLY:
                                     next_run = next_run.shift(years=+1)
+                                elif s.schedule_type == s.CRON:
+                                    next_run = croniter(s.cron, timezone.datetime.now()).get_next(timezone.datetime)
                                 if Conf.CATCH_UP or next_run > arrow.utcnow():
                                     break
-                            s.next_run = next_run.datetime
+                            if s.schedule_type == s.CRON:
+                                s.next_run = next_run
+                            else:
+                                s.next_run = next_run.datetime
                             s.repeats += -1
                         # send it to the cluster
                         q_options["broker"] = broker
                         q_options["group"] = q_options.get(
                             "group", s.name or s.id)
                         kwargs["q_options"] = q_options
-                        s.task = django_q.tasks.async_task(
+                        s.task = QUtilities.add_async_task(
                             s.func, *args, **kwargs)
                         # log it
                         if not s.task:
                             logger.error(
                                 _(
-                                    f"{current_process().name} failed to create a task from schedule [{s.name or s.id}]"
+                                    f"{current_process().name} failed to create a task from schedule [{s.name or s.id}] under tenant {kwargs.get('schema_name', 'UNSPECIFIED')}"
                                 )
                             )
                         else:
                             logger.info(
                                 _(
-                                    f"{current_process().name} created a task from schedule [{s.name or s.id}]"
+                                    f"{current_process().name} created a task from schedule [{s.name or s.id}] under tenant {kwargs.get('schema_name', 'UNSPECIFIED')}"
                                 )
                             )
                         # default behavior is to delete a ONCE schedule

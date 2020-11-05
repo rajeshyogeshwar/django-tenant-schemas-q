@@ -238,7 +238,7 @@ class AsyncTask(object):
             return self.kwargs.get(key, default)
 
     def run(self):
-        self.id = async_task(self.func, *self.args, **self.kwargs)
+        self.id = QUtilities.add_async_task(self.func, *self.args, **self.kwargs)
         self.started = True
         return self.id
 
